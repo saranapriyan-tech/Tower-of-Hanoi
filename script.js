@@ -284,6 +284,67 @@ async function submitScore(username, diskCount, timeTaken, moveCount) {
     }
 }
 
+const BACKEND_URL = "https://tower-of-hanoi-ss9n.onrender.com";
+
+async function fetchLeaderboard(category) {
+    let tbody = document.getElementById("leaderboardBody");
+    tbody.innerHTML = `<tr><td colspan="5">Loading...</td></tr>`;
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/scores?category=${category}`);
+
+        if (!response.ok) {
+            tbody.innerHTML = `<tr><td colspan="5">Failed to load leaderboard</td></tr>`;
+            return;
+        }
+
+        const scores = await response.json();
+        renderLeaderboard(scores);
+    } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5">Network error</td></tr>`;
+        console.log("Leaderboard fetch error:", err);
+    }
+}
+
+function formatTime(ms) {
+    let totalSeconds = Math.floor(ms / 1000);
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+    let centiseconds = Math.floor((ms % 1000) / 10);
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}.${String(centiseconds).padStart(2, "0")}`;
+}
+
+function renderLeaderboard(scores) {
+    let tbody = document.getElementById("leaderboardBody");
+    tbody.innerHTML = "";
+
+    if (scores.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5">No scores yet — be the first!</td></tr>`;
+        return;
+    }
+
+    scores.forEach((score, index) => {
+        let row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${score.username}</td>
+            <td>${score.diskCount}</td>
+            <td>${formatTime(score.timeTaken)}</td>
+            <td>${score.moveCount}</td>
+        `;
+        tbody.appendChild(row);
+    });
+}
+
+let catTabs = document.querySelectorAll(".catTab");
+catTabs.forEach(tab => {
+    tab.addEventListener("click", function () {
+        catTabs.forEach(t => t.classList.remove("active"));
+        this.classList.add("active");
+        fetchLeaderboard(this.dataset.category);
+    });
+});
+
 for (let i = 0; i < 3; i++) {
     document.getElementById(`tower${i + 1}`).addEventListener("click", function () {
         handleTowerClick(i);
@@ -294,3 +355,4 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
 minimumCounter(Number(slider.value));
 ringCategory(Number(slider.value));
+fetchLeaderboard("novice");
