@@ -19,7 +19,9 @@
     --lcd-text: #39ff14;
 
    
-    --font-lcd: 'VT323', 'Courier New', monospace;
+    --font-lcd: "Quantico",sans-serif;
+    --font-weight: 700;
+
     --font-body: Arial, sans-serif;
 
     --font-display: "Audiowide", sans-serif;
@@ -90,6 +92,7 @@ span {
     background: var(--lcd-bg);
     color: var(--lcd-text);
     font-family: var(--font-lcd);
+    font-weight: var(--font-weight);
     font-size: 22px;
     letter-spacing: 2px;
     text-align: center;
