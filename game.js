@@ -348,6 +348,38 @@ for (let i = 0; i < 3; i++) {
     });
 }
 
+document.addEventListener("keydown",(event) => {
+    switch (event.key) {
+        case "1":
+            handleTowerClick(0)
+            break
+        case "2":
+            handleTowerClick(1)
+            break
+        case "3":
+            handleTowerClick(2)
+            break
+        case "a":
+            handleTowerClick(0)
+            break
+        case "s":
+            handleTowerClick(1)
+            break
+        case "d":
+            handleTowerClick(2)
+            break
+        case "A":
+            handleTowerClick(0)
+            break
+        case "S":
+            handleTowerClick(1)
+            break
+        case "D":
+            handleTowerClick(2)
+            break
+    }
+});
+
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
