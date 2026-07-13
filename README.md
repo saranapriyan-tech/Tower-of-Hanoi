@@ -4,7 +4,7 @@ The classic **Tower of Hanoi** puzzle with speedrunning features, online leaderb
 
 ##  Live Demo
 
-**Play here:** https://tower-of-hanoi-speedrun.vercel.app/index.html
+**Play here:** https://tower-of-hanoi-ochre.vercel.app/index.html
 
 ---
 
